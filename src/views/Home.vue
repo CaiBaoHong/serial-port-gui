@@ -1,6 +1,8 @@
 <template>
   <div class="home">
     <button @click="listSerialPorts">list serial ports</button>
+    <div>ports:</div>
+    <div>{{ports}}</div>
   </div>
 </template>
 
@@ -8,10 +10,19 @@
   const serialport = require('serialport')
   export default {
     name: 'home',
+    data(){
+      return {
+        ports: ['empty']
+      }
+    },
     methods: {
       listSerialPorts() {
         serialport.list((err, ports) => {
-          ports.forEach(port => console.log('port: %o', port))
+          if (ports.length===0){
+            this.ports = ['empty']
+          }else{
+            this.ports = ports
+          }
         })
       }
     }
